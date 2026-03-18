@@ -20,3 +20,4 @@ It has a slower but more effective bypass which sends different types of request
 Then it also has a bloater which sends an extra 1 mb
 You can choose how many cores you use and how many threads you send.
 Please leave the folder in Downloads or change the code.
+Im still working on features like proxy swapping
