@@ -26,7 +26,7 @@ except ImportError:
 
 # --- CONFIGURATION ---
 
-PROJECT_DIR = r"C:\Users\Lucki\Desktop\Project"
+PROJECT_DIR = r"%USERPROFILE%\Downloads\BlahajDDoS-main\BlahajDDoS-main\Blahajddos\Worker"
 
 GIF_PATH = os.path.join(PROJECT_DIR, "ascii-animation.gif")
 
