@@ -5,7 +5,7 @@ import json
 
 # --- CONFIGURATION ---
 PORT = 55555
-PROJECT_DIR = r"C:\Users\Lucki\Desktop\Project"
+PROJECT_DIR = r"%USERPROFILE%\Downloads\BlahajDDoS-main\BlahajDDoS-main\Blahajddos\Worker"
 BEAMER_FILE = os.path.join(PROJECT_DIR, "blahajbeamer.py")
 ANIM_FILE = os.path.join(PROJECT_DIR, "shark_anim.py")
 
